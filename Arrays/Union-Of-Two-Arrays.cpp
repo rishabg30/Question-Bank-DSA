@@ -8,22 +8,58 @@ void printarr(vector<int>&arr) {
 	}
 	cout << endl;
 }
-// vector<int>sortedArray(vector<int>&arr1, vector<int>&arr2) {
+vector<int>sortedArray(vector<int>&arr1, vector<int>&arr2) {
+	int n = arr1.size(), m = arr2.size();
+	vector<int>my_sorted_array;
+	int i = 0, j = 0;
 
-// }
-
-int traffic(int n, int m, vector<int> vehicle) {
-
-	int i = 0, max_length = 0;
-	while (i < n && m != 0) {
-		if (vehicle[i] == 0) {
-			m--;
+	while (i < n && j < m) {
+		if (arr1[i] < arr2[j]) {
+			int val = arr1[i];
+			i++;
+			while (i < n && arr1[i] == val) {
+				i++;
+			}
+			my_sorted_array.push_back(val);
 		}
-		i++;
-		max_length = max(max_length, i);
+		else if (arr1[i] > arr2[j]) {
+			int val = arr2[j];
+			j++;
+			while (j < m && arr2[j] == val) {
+				j++;
+			}
+			my_sorted_array.push_back(val);
+		}
+		else {
+			int val = arr1[i];
+			i++, j++;
+			while (i < n && arr1[i] == val) {
+				i++;
+			}
+			while (j < m && arr2[j] == val) {
+				j++;
+			}
+			my_sorted_array.push_back(val);
+		}
 	}
+	while (i < n) {
+		int val = arr1[i];
+		i++;
+		while (i < n && arr1[i] == val) {
+			i++;
+		}
+		my_sorted_array.push_back(val);
+	}
+	while (j < m) {
+		int val = arr2[j];
+		j++;
+		while (j < m && arr2[j] == val) {
+			j++;
+		}
+		my_sorted_array.push_back(val);
+	}
+	return my_sorted_array;
 }
-
 signed main()
 {
 #ifndef ONLINE_JUDGE
@@ -31,12 +67,15 @@ signed main()
 	freopen("output.txt", "w", stdout);
 #endif
 
-	cout << traffic(n, m, arr1);
-	// int m; cin >> m;
-	// vector<int>arr2(m);
-	// for (int i = 0; i < m; i++) {
-	// 	cin >> arr2[i];
-	// }
-	// vector<int>ans = sortedArray(arr1, arr2);
-	// printarr(ans);
+	int n, m; cin >> n >> m;
+	vector<int>arr1(n);
+	for (int i = 0; i < n; i++) {
+		cin >> arr1[i];
+	}
+	vector<int>arr2(m);
+	for (int i = 0; i < m; i++) {
+		cin >> arr2[i];
+	}
+	vector<int>ans = sortedArray(arr1, arr2);
+	printarr(ans);
 }

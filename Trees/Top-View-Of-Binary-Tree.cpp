@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-//https://leetcode.com/problems/diameter-of-binary-tree/
+//https://practice.geeksforgeeks.org/problems/top-view-of-binary-tree/1
 
 class TreeNode {
 public:
@@ -13,22 +13,35 @@ public:
 	}
 };
 
-int heightBT(TreeNode *root, int &maxDiameter) {
+vector<int> topView(TreeNode *root) {
+	vector<int>ans;
 	if (root == NULL) {
-		return 0;
+		return {};
 	}
-	int leftHeight = heightBT(root->left, maxDiameter);
-	int rightHeight = heightBT(root->right, maxDiameter);
-	maxDiameter = max(maxDiameter, leftHeight + rightHeight);
-	return 1 + max(leftHeight, rightHeight);
-}
-int diameterOfBinaryTree(TreeNode *root) {
-	if (root == NULL) {
-		return 0;
+	queue<pair<TreeNode*, int>>q;
+	map<int, TreeNode*>mp;
+	q.push({root, 0});
+
+	while (q.size() != 0) {
+		auto it = q.front();
+		q.pop();
+		TreeNode *node = it.first;
+		int x_axis = it.second;
+		if (mp.find(x_axis) == mp.end()) {
+			mp.insert({x_axis, node});
+		}
+
+		if (node->left) {
+			q.push({node->left, x_axis - 1});
+		}
+		if (node->right) {
+			q.push({node->right, x_axis + 1});
+		}
 	}
-	int maxDiameter = 0;
-	heightBT(root, maxDiameter);
-	return maxDiameter;
+	for (auto it : mp) {
+		ans.push_back(it.second->val);
+	}
+	return ans;
 }
 signed main()
 {
@@ -36,6 +49,7 @@ signed main()
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
+
 	TreeNode *root = new TreeNode(1);
 	TreeNode *n1 = new TreeNode(2);
 	TreeNode *n2 = new TreeNode(3);
@@ -53,5 +67,9 @@ signed main()
 	TreeNode *n9 = new TreeNode(10);
 	n4->left = n7;
 	n6->left = n8, n6->right = n9;
-	cout << diameterOfBinaryTree(root) << endl;
+	vector<int>ans = topView(root);
+	for (auto it : ans) {
+		cout << it << " ";
+	}
+	cout << endl;
 }

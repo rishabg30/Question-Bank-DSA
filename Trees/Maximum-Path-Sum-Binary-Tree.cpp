@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-//https://leetcode.com/problems/diameter-of-binary-tree/
+// https://leetcode.com/problems/binary-tree-maximum-path-sum/
 
 class TreeNode {
 public:
@@ -13,22 +13,22 @@ public:
 	}
 };
 
-int heightBT(TreeNode *root, int &maxDiameter) {
+int maxPath(TreeNode* root, int &maxSum) {
 	if (root == NULL) {
 		return 0;
 	}
-	int leftHeight = heightBT(root->left, maxDiameter);
-	int rightHeight = heightBT(root->right, maxDiameter);
-	maxDiameter = max(maxDiameter, leftHeight + rightHeight);
-	return 1 + max(leftHeight, rightHeight);
+	int leftSum = max(0, maxPath(root->left, maxSum));
+	int rightSum = max(0, maxPath(root->right, maxSum));
+	maxSum = max(maxSum, leftSum + rightSum + root->val);
+	return root->val + max(leftSum, rightSum);
 }
-int diameterOfBinaryTree(TreeNode *root) {
+int maxPathSum(TreeNode* root) {
 	if (root == NULL) {
 		return 0;
 	}
-	int maxDiameter = 0;
-	heightBT(root, maxDiameter);
-	return maxDiameter;
+	int maxSum = INT_MIN;
+	maxPath(root, maxSum);
+	return maxSum;
 }
 signed main()
 {
@@ -53,5 +53,5 @@ signed main()
 	TreeNode *n9 = new TreeNode(10);
 	n4->left = n7;
 	n6->left = n8, n6->right = n9;
-	cout << diameterOfBinaryTree(root) << endl;
+	cout << maxPathSum(root) << endl;
 }

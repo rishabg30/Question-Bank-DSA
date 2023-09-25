@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-//https://leetcode.com/problems/diameter-of-binary-tree/
+//https://leetcode.com/problems/symmetric-tree/description/
 
 class TreeNode {
 public:
@@ -13,22 +13,19 @@ public:
 	}
 };
 
-int heightBT(TreeNode *root, int &maxDiameter) {
-	if (root == NULL) {
-		return 0;
+bool checkSymmetric(TreeNode* leftTree, TreeNode* rightTree) {
+	if (leftTree == NULL || rightTree == NULL) {
+		return (leftTree == rightTree) ? true : false;
 	}
-	int leftHeight = heightBT(root->left, maxDiameter);
-	int rightHeight = heightBT(root->right, maxDiameter);
-	maxDiameter = max(maxDiameter, leftHeight + rightHeight);
-	return 1 + max(leftHeight, rightHeight);
+	if (leftTree->val != rightTree->val) {
+		return false;
+	}
+	return checkSymmetric(leftTree->left, rightTree->right) && checkSymmetric(leftTree->right, rightTree->left);
 }
-int diameterOfBinaryTree(TreeNode *root) {
-	if (root == NULL) {
-		return 0;
-	}
-	int maxDiameter = 0;
-	heightBT(root, maxDiameter);
-	return maxDiameter;
+bool isSymmetric(TreeNode* root) {
+	if (root == NULL)return true;
+	bool ans = checkSymmetric(root->left, root->right);
+	return ans;
 }
 signed main()
 {
@@ -53,5 +50,5 @@ signed main()
 	TreeNode *n9 = new TreeNode(10);
 	n4->left = n7;
 	n6->left = n8, n6->right = n9;
-	cout << diameterOfBinaryTree(root) << endl;
+	cout << isSymmetric(root);
 }
