@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
+//https://leetcode.com/problems/count-complete-tree-nodes/
+
 class TreeNode {
 public:
 	int val;
@@ -11,28 +13,8 @@ public:
 	}
 };
 
-bool getPath(TreeNode *root, int node, vector<int>&ds) {
-	if (root == NULL) {
-		return false;
-	}
-	ds.push_back(root->val);
-	if (root->val == node) {
-		return true;
-	}
-	if (getPath(root->left, node, ds) == true ||
-	        getPath(root->right, node, ds) == true) {
-		return true;
-	}
-	ds.pop_back();
-	return false;
-}
-vector<int>rootToNodePath(TreeNode *root, int node) {
-	vector<int>ds;
-	if (root == NULL) {
-		return {};
-	}
-	getPath(root, node, ds);
-	return ds;
+int countNodes(TreeNode* root) {
+
 }
 signed main()
 {
@@ -57,9 +39,5 @@ signed main()
 	TreeNode *n9 = new TreeNode(10);
 	n4->left = n7;
 	n6->left = n8, n6->right = n9;
-	vector<int>ans = rootToNodePath(root, 9);
-	for (auto it : ans) {
-		cout << it << " ";
-	}
-	cout << endl;
+	cout << countNodes(root) << endl;
 }

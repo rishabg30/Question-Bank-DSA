@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
+//https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
+
 class TreeNode {
 public:
 	int val;
@@ -11,28 +13,25 @@ public:
 	}
 };
 
-bool getPath(TreeNode *root, int node, vector<int>&ds) {
-	if (root == NULL) {
-		return false;
+TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+	//Base case
+	if (root == NULL || root == p || root == q) {
+		return root;
 	}
-	ds.push_back(root->val);
-	if (root->val == node) {
-		return true;
+	TreeNode *left = lowestCommonAncestor(root->left, p, q);
+	TreeNode *right = lowestCommonAncestor(root->right, p, q);
+
+	//Result
+	if (left == NULL) {
+		return right;
 	}
-	if (getPath(root->left, node, ds) == true ||
-	        getPath(root->right, node, ds) == true) {
-		return true;
+	if (right == NULL) {
+		return left;
 	}
-	ds.pop_back();
-	return false;
-}
-vector<int>rootToNodePath(TreeNode *root, int node) {
-	vector<int>ds;
-	if (root == NULL) {
-		return {};
+	//Both left and right are not NULL, this means this node is our LCA
+	else {
+		return root;
 	}
-	getPath(root, node, ds);
-	return ds;
 }
 signed main()
 {
@@ -57,9 +56,6 @@ signed main()
 	TreeNode *n9 = new TreeNode(10);
 	n4->left = n7;
 	n6->left = n8, n6->right = n9;
-	vector<int>ans = rootToNodePath(root, 9);
-	for (auto it : ans) {
-		cout << it << " ";
-	}
-	cout << endl;
+	TreeNode *LCA = lowestCommonAncestor(root, n5, n6);
+	cout << LCA->val << endl;
 }
