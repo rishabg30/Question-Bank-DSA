@@ -13,8 +13,32 @@ public:
 	}
 };
 
+int findHeightLeft(TreeNode *root) {
+	int height = 0;
+	while (root != NULL) {
+		height++;
+		root = root->left;
+	}
+	return height;
+}
+int findHeightRight(TreeNode *root) {
+	int height = 0;
+	while (root != NULL) {
+		height++;
+		root = root->right;
+	}
+	return height;
+}
 int countNodes(TreeNode* root) {
-
+	if (root == NULL) {
+		return 0;
+	}
+	int leftHeight = findHeightLeft(root);
+	int rightHeight = findHeightRight(root);
+	if (leftHeight == rightHeight) {
+		return (1 << leftHeight) - 1;
+	}
+	return 1 + countNodes(root->left) + countNodes(root->right);
 }
 signed main()
 {
