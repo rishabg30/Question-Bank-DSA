@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-// https://www.codingninjas.com/studio/problems/ceil-from-bst_920464?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
+// https://leetcode.com/problems/kth-smallest-element-in-a-bst/
 
 class TreeNode {
 public:
@@ -13,26 +13,22 @@ public:
 	}
 };
 
-int findCeil(TreeNode *root, int key) {
+void myKthSmallest(TreeNode *root, int &k, int &ans) {
 	if (root == NULL) {
-		return -1;
+		return;
 	}
-	TreeNode *curr = root;
-	int Ceil = 1e9;
-
-	while (curr != NULL) {
-		if (curr->val == key) {
-			return key;
-		}
-		else if (curr->val > key) {
-			Ceil = min(Ceil, curr->val);
-			curr = curr->left;
-		}
-		else {
-			curr = curr->right;
-		}
+	myKthSmallest(root->left, k, ans);
+	k--;
+	if (k == 0) {
+		ans = root->val;
+		return;
 	}
-	return (Ceil == 1e9) ? -1 : Ceil;
+	myKthSmallest(root->right, k, ans);
+}
+int kthSmallest(TreeNode* root, int k) {
+	int ans = 0;
+	myKthSmallest(root, k, ans);
+	return ans;
 }
 signed main()
 {
@@ -56,5 +52,5 @@ signed main()
 	TreeNode *n8 = new TreeNode(13);
 	n4->left = n6, n4->right = n7;
 	n5->left = n8;
-	cout << findCeil(root, 2) << endl;
+	cout << kthSmallest(root, 8);
 }

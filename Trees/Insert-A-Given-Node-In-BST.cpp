@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-// https://www.codingninjas.com/studio/problems/ceil-from-bst_920464?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
+// https://leetcode.com/problems/insert-into-a-binary-search-tree/description/
 
 class TreeNode {
 public:
@@ -13,26 +13,41 @@ public:
 	}
 };
 
-int findCeil(TreeNode *root, int key) {
+void printBST(TreeNode *root) {
+	if (root == NULL)return;
+	cout << root->val << " ";
+	printBST(root->left);
+	printBST(root->right);
+}
+TreeNode* insertIntoBST(TreeNode* root, int val) {
 	if (root == NULL) {
-		return -1;
+		return new TreeNode(val);
 	}
 	TreeNode *curr = root;
-	int Ceil = 1e9;
 
-	while (curr != NULL) {
-		if (curr->val == key) {
-			return key;
-		}
-		else if (curr->val > key) {
-			Ceil = min(Ceil, curr->val);
-			curr = curr->left;
+	while (true) {
+		if (curr->val <= val) {
+			//Move to the right side
+			if (curr->right != NULL) {
+				curr = curr->right;
+			}
+			else {
+				curr->right = new TreeNode(val);
+				break;
+			}
 		}
 		else {
-			curr = curr->right;
+			//Move to the left side
+			if (curr->left != NULL) {
+				curr = curr->left;
+			}
+			else {
+				curr->left = new TreeNode(val);
+				break;
+			}
 		}
 	}
-	return (Ceil == 1e9) ? -1 : Ceil;
+	return root;
 }
 signed main()
 {
@@ -56,5 +71,6 @@ signed main()
 	TreeNode *n8 = new TreeNode(13);
 	n4->left = n6, n4->right = n7;
 	n5->left = n8;
-	cout << findCeil(root, 2) << endl;
+	root = insertIntoBST(root, 11);
+	printBST(root);
 }

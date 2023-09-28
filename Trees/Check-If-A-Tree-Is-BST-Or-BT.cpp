@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-// https://www.codingninjas.com/studio/problems/ceil-from-bst_920464?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
+//https://leetcode.com/problems/validate-binary-search-tree/
 
 class TreeNode {
 public:
@@ -13,26 +13,21 @@ public:
 	}
 };
 
-int findCeil(TreeNode *root, int key) {
+bool isValid(TreeNode *node, long long minValue, long long maxValue) {
+	if (node == NULL) {
+		return true;
+	}
+	if (node->val >= maxValue || node->val <= minValue) {
+		return false;
+	}
+	return isValid(node->left, minValue, node->val)
+	       && isValid(node->right, node->val, maxValue);
+}
+bool isValidBST(TreeNode* root) {
 	if (root == NULL) {
-		return -1;
+		return true;
 	}
-	TreeNode *curr = root;
-	int Ceil = 1e9;
-
-	while (curr != NULL) {
-		if (curr->val == key) {
-			return key;
-		}
-		else if (curr->val > key) {
-			Ceil = min(Ceil, curr->val);
-			curr = curr->left;
-		}
-		else {
-			curr = curr->right;
-		}
-	}
-	return (Ceil == 1e9) ? -1 : Ceil;
+	return isValid(root, -1e18, 1e18);
 }
 signed main()
 {
@@ -56,5 +51,5 @@ signed main()
 	TreeNode *n8 = new TreeNode(13);
 	n4->left = n6, n4->right = n7;
 	n5->left = n8;
-	cout << findCeil(root, 2) << endl;
+	cout << isValidBST(root) << endl;
 }
