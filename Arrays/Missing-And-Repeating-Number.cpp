@@ -22,25 +22,60 @@ vector<int> findMissingRepeatingNumbers(vector<int>&arr) {
 	int XOR = 0;
 	for (int i = 0; i < n; i++) {
 		XOR ^= arr[i];
-		X0R ^= (i + 1);
+		XOR ^= (i + 1);
 	}
-
-	//Calculating the differ bit in the number
+	// Calculating the differ bit in the number
 	int temp = XOR, count = 0;
 	while (temp) {
-		if ((temp & 1) == 1) {
+		if ((temp & (1 << count)) != 0) {
 			break;
 		}
 		else {
 			count++;
-			temp = temp >> 1;
 		}
 	}
-
 	// Segregate them into two sets
 	// 1st Set - elements containing their first bit as 1
 	// 2nd Set - elements containing their first bit as 0
+	int x = 0, y = 0;
+	for (int i = 0; i < n; i++) {
+		int mask = (1 << count);
+		if ((arr[i] & mask) != 0) {
+			x ^= arr[i];
+		}
+		else {
+			y ^= arr[i];
+		}
+	}
+	for (int i = 1; i <= n; i++) {
+		int mask = (1 << count);
+		if ((i & mask) != 0) {
+			x ^= i;
+		}
+		else {
+			y ^= i;
+		}
+	}
 
+// Now we have x and y which are our repeating and missing number
+// To identify which one is whom iterate again in array and check the occurence.
+	int repeating_number = 0, missing_number = 0;
+	for (int i = 0; i < n; i++) {
+		if (arr[i] == x) {
+			repeating_number = x;
+			break;
+		}
+	}
+
+	if (repeating_number == 0) {
+		repeating_number = y;
+		missing_number = x;
+		return {repeating_number, missing_number};
+	}
+	else {
+		missing_number = y;
+	}
+	return {repeating_number, missing_number};
 }
 signed main()
 {
