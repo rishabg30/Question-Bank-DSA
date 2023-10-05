@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-//https://leetcode.com/problems/search-in-rotated-sorted-array/
+//https://leetcode.com/problems/search-in-rotated-sorted-array-ii/
 
 void printArray_1D(vector<int>&arr) {
 	for (auto it : arr) {
@@ -18,12 +18,19 @@ void printArray_2D(vector<vector<int>>&arr) {
 	}
 }
 
-int search(vector<int>& arr, int target) {
+bool search(vector<int>& arr, int target) {
 
 	int low = 0, high = arr.size() - 1;
 	while (low <= high) {
 		int mid = (low + high) / 2;
-		if (arr[mid] == target)return mid;
+		if (arr[mid] == target)return true;
+
+		//If duplicates are present in the array
+		if (arr[low] == arr[mid] && arr[mid] == arr[high]) {
+			low++;
+			high--;
+			continue;
+		}
 
 		//Check which region is sorted
 		if (arr[low] <= arr[mid]) {
@@ -45,7 +52,7 @@ int search(vector<int>& arr, int target) {
 			}
 		}
 	}
-	return -1;
+	return false;
 }
 signed main()
 {

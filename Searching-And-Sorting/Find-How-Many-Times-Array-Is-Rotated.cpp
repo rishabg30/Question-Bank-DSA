@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-//https://leetcode.com/problems/search-in-rotated-sorted-array/
+//https://www.codingninjas.com/studio/problems/rotation_7449070?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
 
 void printArray_1D(vector<int>&arr) {
 	for (auto it : arr) {
@@ -18,34 +18,32 @@ void printArray_2D(vector<vector<int>>&arr) {
 	}
 }
 
-int search(vector<int>& arr, int target) {
+int findKRotation(vector<int> &arr) {
+	//Just find the minimum in rotated sorted array and the index at which is present will
+	//be the number of times array has been rotated
 
 	int low = 0, high = arr.size() - 1;
+	int minAns = INT_MAX, index = -1;
+
 	while (low <= high) {
 		int mid = (low + high) / 2;
-		if (arr[mid] == target)return mid;
-
 		//Check which region is sorted
 		if (arr[low] <= arr[mid]) {
-			//Left area is sorted
-			if (arr[low] <= target && target <= arr[mid]) {
-				high = mid - 1;
+			if (arr[low] < minAns) {
+				minAns = arr[low];
+				index = low;
 			}
-			else {
-				low = mid + 1;
-			}
+			low = mid + 1;
 		}
 		else {
-			//Right area is sorted
-			if (arr[mid] <= target && target <= arr[high]) {
-				low = mid + 1;
+			if (arr[mid] < minAns) {
+				minAns = arr[mid];
+				index = mid;
 			}
-			else {
-				high = mid - 1;
-			}
+			high = mid - 1;
 		}
 	}
-	return -1;
+	return index;
 }
 signed main()
 {
@@ -58,6 +56,5 @@ signed main()
 	for (int i = 0; i < n; i++) {
 		cin >> arr[i];
 	}
-	int target; cin >> target;
-	cout << search(arr, target) << endl;
+	cout << findKRotation(arr) << endl;
 }
