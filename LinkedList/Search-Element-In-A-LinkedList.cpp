@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-//https://leetcode.com/problems/delete-node-in-a-linked-list/
+//https://www.codingninjas.com/studio/problems/search-in-a-linked-list_975381?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
 
 class ListNode {
 public:
@@ -16,18 +16,15 @@ public:
 	}
 };
 
-void printLL(ListNode *head) {
-	if (head == NULL) {
-		return;
+int searchInLinkedList(ListNode *head, int k) {
+	ListNode *curr = head;
+	while (curr != NULL) {
+		if (curr->val == k) {
+			return 1;
+		}
+		curr = curr->next;
 	}
-	while (head != NULL) {
-		cout << head->val << " ";
-		head = head->next;
-	}
-}
-void deleteNode(ListNode* node) {
-	node->val = node->next->val;
-	node->next = node->next->next;
+	return 0;
 }
 signed main()
 {
@@ -45,6 +42,5 @@ signed main()
 	n2->next = n3;
 	n3->next = n4;
 	n4->next = n5;
-	deleteNode(n1);
-	printLL(n1);
+	cout << searchInLinkedList(n1, 3) << endl;
 }

@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-//https://leetcode.com/problems/delete-node-in-a-linked-list/
+//https://www.codingninjas.com/studio/problems/delete-node-of-linked-list_8160463?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTab=0
 
 class ListNode {
 public:
@@ -25,9 +25,13 @@ void printLL(ListNode *head) {
 		head = head->next;
 	}
 }
-void deleteNode(ListNode* node) {
-	node->val = node->next->val;
-	node->next = node->next->next;
+ListNode *deleteLast(ListNode *head) {
+	ListNode *temp = head;
+	while (temp->next->next != NULL) {
+		temp = temp->next;
+	}
+	temp->next = NULL;
+	return head;
 }
 signed main()
 {
@@ -45,6 +49,6 @@ signed main()
 	n2->next = n3;
 	n3->next = n4;
 	n4->next = n5;
-	deleteNode(n1);
+	n1 = deleteLast(n1);
 	printLL(n1);
 }
