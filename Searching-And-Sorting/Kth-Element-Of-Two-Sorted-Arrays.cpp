@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-//https://leetcode.com/problems/median-of-two-sorted-arrays/
+//https://www.codingninjas.com/studio/problems/k-th-element-of-2-sorted-array_1164159?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
 
 void printArray_1D(vector<int>&arr) {
 	for (auto it : arr) {
@@ -18,33 +18,26 @@ void printArray_2D(vector<vector<int>>&arr) {
 	}
 }
 
-double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-	int n1 = nums1.size(), n2 = nums2.size();
+int kthElement(vector<int> &arr1, vector<int>& arr2, int n, int m, int k) {
 	//Check to perform binary search on smaller array - to reduce time complexity
 	//We will check on smaller array how many elements we have to take on left and right half
-	if (n1 > n2) {
-		return findMedianSortedArrays(nums2, nums1);
+	if (n > m) {
+		return kthElement(arr2, arr1, m, n, k);
 	}
-	int low = 0, high = n1;
-	int total = (n1 + n2 + 1) / 2;
+	int low = max(k - m, 0), high = min(k, n);
+	int total = k;
 	while (low <= high) {
 		int mid1 = (low + high) / 2;
 		int mid2 = total - mid1;
 		int l1 = -1e9, l2 = -1e9;
 		int r1 = 1e9, r2 = 1e9;
-		if (mid1 < n1)r1 = nums1[mid1];
-		if (mid2 < n2)r2 = nums2[mid2];
-		if (mid1 - 1 >= 0)l1 = nums1[mid1 - 1];
-		if (mid2 - 1 >= 0)l2 = nums2[mid2 - 1];
+		if (mid1 < n)r1 = arr1[mid1];
+		if (mid2 < m)r2 = arr2[mid2];
+		if (mid1 - 1 >= 0)l1 = arr1[mid1 - 1];
+		if (mid2 - 1 >= 0)l2 = arr2[mid2 - 1];
 
 		if (l1 <= r2 && l2 <= r1) {
-			if ((n1 + n2) % 2 == 1) {
-				//Total Elements are odd
-				return max(l1, l2);
-			}
-			else {
-				return (double)(max(l1, l2) + min(r1, r2)) / 2.0;
-			}
+			return max(l1, l2);
 		}
 		else if (l1 > r2) {
 			high = mid1 - 1;
@@ -62,14 +55,15 @@ signed main()
 	freopen("output.txt", "w", stdout);
 #endif
 	int n; cin >> n;
-	vector<int>nums1(n);
+	vector<int>arr1(n);
 	for (int i = 0; i < n; i++) {
-		cin >> nums1[i];
+		cin >> arr1[i];
 	}
 	int m; cin >> m;
-	vector<int>nums2(m);
+	vector<int>arr2(m);
 	for (int i = 0; i < m; i++) {
-		cin >> nums2[i];
+		cin >> arr2[i];
 	}
-	cout << findMedianSortedArrays(nums1, nums2) << endl;
+	int k; cin >> k;
+	cout << kthElement(arr1, arr2, n, m, k);
 }
