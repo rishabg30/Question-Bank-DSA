@@ -25,24 +25,27 @@ void printDLL(ListNode *head) {
 		head = head->next;
 	}
 }
-//1->2->3->4
 ListNode* reverseDLL(ListNode* head) {
 	if (head == NULL || head->next == NULL) {
 		return head;
 	}
+
+	ListNode *temp = NULL;
 	ListNode *curr = head;
-	ListNode *prevnode = NULL;
+
 	while (curr != NULL) {
-		ListNode *frwdnode = curr->next;
-		frwdnode->prev = NULL;
+		//We store the current's previous
+		temp = curr->prev;
+		//Now we change current's prev value with current's next value
+		curr->prev = curr->next;
+		curr->next = temp;
 
-		curr->next = prevnode;
-		prevnode->prev = curr;
-
-		prevnode = curr;
-		curr = frwdnode;
+		curr = curr->prev;
 	}
-	return prevnode;
+	if (temp != NULL) {
+		head = temp->prev;
+	}
+	return head;
 }
 signed main()
 {
