@@ -17,9 +17,28 @@ void printArray_2D(vector<vector<int>>&arr) {
 		cout << endl;
 	}
 }
+int countSubarraysWithAtMostKDistinct(vector<int>&arr, int k) {
+	int n = arr.size();
+	unordered_map<int, int>mp;
 
+	int si = 0, ei = 0, count = 0;
+	while (ei < n) {
+		mp[arr[ei]]++;
+		ei++;
+
+		while (mp.size() > k) {
+			mp[arr[si]]--;
+			if (mp[arr[si]] == 0) {
+				mp.erase(arr[si]);
+			}
+			si++;
+		}
+		count = count + (ei - si);
+	}
+	return count;
+}
 int subarraysWithKDistinct(vector<int>& arr, int k) {
-
+	return countSubarraysWithAtMostKDistinct(arr, k) - countSubarraysWithAtMostKDistinct(arr, k - 1);
 }
 signed main()
 {

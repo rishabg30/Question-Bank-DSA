@@ -21,11 +21,14 @@ void printArray_2D(vector<vector<int>>&arr) {
 int kthElement(vector<int> &arr1, vector<int>& arr2, int n, int m, int k) {
 	//Check to perform binary search on smaller array - to reduce time complexity
 	//We will check on smaller array how many elements we have to take on left and right half
+
+	//We are splitting like this : Left - K elements , Right - Remaining (n + m - K) elements
+	//Therefore low - max(0, k-m) , high - min(k,n);
 	if (n > m) {
 		return kthElement(arr2, arr1, m, n, k);
 	}
 	int low = max(k - m, 0), high = min(k, n);
-	int total = k;
+	int total = k; //How many elements will be on the left
 	while (low <= high) {
 		int mid1 = (low + high) / 2;
 		int mid2 = total - mid1;
