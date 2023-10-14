@@ -17,9 +17,28 @@ void printArray_2D(vector<vector<int>>&arr) {
 		cout << endl;
 	}
 }
+//In this question we are asked to find longest subarray consisting of 1 in which
+//we can flip at most k zeros
 
+//This question boils down to longest subarray consisting of atmost k zeros
 int longestOnes(vector<int>& arr, int k) {
+	int n = arr.size(), si = 0, ei = 0, count = 0, length = 0;
 
+	while (ei < n) {
+		if (arr[ei] == 0) {
+			count++;
+		}
+		ei++;
+
+		while (count > k) {
+			if (arr[si] == 0) {
+				count--;
+			}
+			si++;
+		}
+		length = max(length, ei - si);
+	}
+	return length;
 }
 signed main()
 {

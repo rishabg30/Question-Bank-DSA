@@ -1,1 +1,2 @@
-abcabc
+AABABBA
+1
